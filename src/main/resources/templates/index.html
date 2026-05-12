@@ -9,5 +9,17 @@
 <h1>Pizza Luigi</h1>
 <img src="images/luigi.jpg" alt="Pizza Luigi" class="fullwidth">
 <h2>Good <span th:text="${time}"></span></h2>
+<h2>Owner</h2>
+<dl th:object="${owner}">
+    <dt>Name</dt>
+    <dd th:text="*{name}"></dd>
+    <dt>Number of kids</dt>
+    <dd th:text="*{numberOfKids}"></dd>
+    <dt>Married</dt>
+    <dd th:text="*{married} ? 'Yes' : 'No'"></dd>
+    <dt>Address</dt>
+    <dd th:object="${owner.address}"
+    th:text="|*{street} *{houseNumber} *{postalCode} *{city}|"></dd>
+</dl>
 </body>
 </html>
