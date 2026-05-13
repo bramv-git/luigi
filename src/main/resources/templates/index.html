@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Pizza Luigi</title>
-    <link rel="icon" href="../static/images/luigi.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../static/css/luigi.css">
+    <link rel="icon" th:href="@{/images/luigi.ico}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/luigi.css}">
 </head>
 <body>
 <h1>Pizza Luigi</h1>
-<img src="images/luigi.jpg" alt="Pizza Luigi" class="fullwidth">
+<img th:src="@{/images/luigi.jpg}" alt="Pizza Luigi" class="fullwidth">
 <h2>Good <th:block th:text="${time}"></th:block></h2>
 <h2>Owner</h2>
 <dl th:object="${owner}">
