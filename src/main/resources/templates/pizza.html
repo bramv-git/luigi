@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head th:replace="fragments::head(title=${pizza} ? ${pizza.name} : 'Pizza niet gevonden')"></head>
+<body>
+    <nav th:replace="fragments::navigation"></nav>
+<div th:if="not ${pizza}" class="false">Pizza niet gevonden:
+    <th:block th:text="${id}"></th:block>
+</div>
+    <th:block th:if="${pizza}" th:object="${pizza}">
+        <h1 th:text="*{name}"></h1>
+        <dl>
+            <dt>Number</dt>
+            <dd th:text="*{id}"></dd>
+            <dt>Price</dt>
+            <dd th:text="*{price}"></dd>
+            <dt>Spicy</dt>
+            <dd th:text="*{spicy} ? 'Yes' : 'No'">
+        </dl>
+    </th:block>
+</body>
+</html>
