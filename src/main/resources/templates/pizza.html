@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
-<head th:replace="fragments::head(title=${pizza} ? ${pizza.name} : 'Pizza niet gevonden')"></head>
+<head th:replace="~{fragments::head(title=${pizza} ? ${pizza.name} : 'Pizza niet gevonden')}"></head>
 <body>
-    <nav th:replace="fragments::navigation"></nav>
+    <nav th:replace="~{fragments::navigation}"></nav>
 <div th:if="not ${pizza}" class="false">Pizza niet gevonden:
     <th:block th:text="${id}"></th:block>
 </div>
@@ -13,6 +13,8 @@
             <dd th:text="*{id}"></dd>
             <dt>Price</dt>
             <dd th:text="*{price}"></dd>
+            <dt th:if="${inDollar}">In Dollar</dt>
+            <dd th:if="${inDollar}" th:text="${inDollar}"></dd>
             <dt>Spicy</dt>
             <dd th:text="*{spicy} ? 'Yes' : 'No'">
         </dl>

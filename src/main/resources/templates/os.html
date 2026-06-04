@@ -1,9 +1,9 @@
 <!docType html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments::head(title='OS')">
+<head th:replace="~{fragments::head(title='OS')}">
 </head>
 <body>
-<nav th:replace="fragments::navigation"></nav>
+<nav th:replace="~{fragments::navigation}"></nav>
 <h1>Your operatingsystem is
     <th:block th:text="${os} ? ${os} : 'Unknown'"></th:block>
 </h1>

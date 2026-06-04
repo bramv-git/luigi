@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments::head(title='Pizza Luigi')"></head>
+<head th:replace="~{fragments::head(title='Pizza Luigi')}"></head>
 <body>
-<nav th:replace="fragments::navigation"></nav>
+<nav th:replace="~{fragments::navigation}"></nav>
 <h1>Pizza Luigi</h1>
 <img th:src="@{/images/luigi.jpg}" alt="Pizza Luigi" class="fullwidth">
 <h2>Good <th:block th:text="${time}"></th:block></h2>

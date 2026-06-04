@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments::head(title='Pizzas')"></head>
+<head th:replace="~{fragments::head(title='Pizzas')}"></head>
 <body>
-<nav th:replace="fragments::navigation"></nav>
+<nav th:replace="~{fragments::navigation}"></nav>
 <h1>Pizzas</h1>
-<table th:replace="fragments::pizzaTable(pizzas=${pizzas})"></table>
+<table th:replace="~{fragments::pizzaTable(pizzas=${pizzas})}"></table>
 </body>
 </html>
