@@ -1,9 +1,9 @@
 package be.vdab.luigi.controllers;
 
-import be.vdab.luigi.domain.Pizza;
 import be.vdab.luigi.exceptions.KoersClientException;
 import be.vdab.luigi.services.EuroService;
 
+import be.vdab.luigi.services.PizzaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,44 +14,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("pizzas")
 public class PizzaController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private final Pizza[] pizzas = {
-            new Pizza(1,"Prosciutto", BigDecimal.valueOf(4),true),
-            new Pizza(2,"Margherita", BigDecimal.valueOf(5),false),
-            new Pizza(3,"Calzone", BigDecimal.valueOf(4),false)
-    };
+    private final PizzaService pizzaService;
     private final EuroService euroService;
 
-    public PizzaController(EuroService euroService) {
+    public PizzaController(PizzaService pizzaService, EuroService euroService) {
+        this.pizzaService = pizzaService;
         this.euroService = euroService;
     }
 
     @GetMapping
     public ModelAndView pizzas() {
-        return new ModelAndView("pizzas", "pizzas", pizzas);
+        return new ModelAndView("pizzas", "pizzas", pizzaService.findAll());
     }
 
     @GetMapping("{id}")
     public ModelAndView pizza(@PathVariable long id) {
         var modelAndView = new ModelAndView("pizza.html");
-        Arrays.stream(pizzas)
-                .filter(pizza -> pizza.getId() == id)
-                .findFirst()
-                .ifPresent(pizza -> {
-                    modelAndView.addObject("pizza", pizza);
-                    try {
-                        modelAndView.addObject(
-                                "inDollar", euroService.toDollar(pizza.getPrice()));
-                    } catch (KoersClientException ex) {
-                     logger.error("Kan dollar koers niet lezen.", ex);
-                    }
-                });
+        pizzaService.findById(id).ifPresent(pizza -> {
+            modelAndView.addObject("pizza", pizza);
+            try {
+                modelAndView.addObject(
+                        "inDollar", euroService.toDollar(pizza.getPrice()));
+            } catch (KoersClientException ex) {
+             logger.error("Kan dollar koers niet lezen.", ex);
+            }
+        });
         return modelAndView;
+    }
+
+    @GetMapping("prices")
+    public ModelAndView prices(){
+        return new ModelAndView("prices", "prices", pizzaService.findUniquePrices());
+    }
+
+    @GetMapping("prices/{price}")
+    public ModelAndView pizzasWithAPrice(@PathVariable BigDecimal price){
+        return new ModelAndView(
+                "prices", "pizzas", pizzaService.findByPrice(price))
+                .addObject("prices", pizzaService.findUniquePrices());
+    }
+
+    @GetMapping("numberofpizzasperprice")
+    public ModelAndView numberOfPizzasPerPrice(){
+        return new ModelAndView("numberofpizzasperprice",
+                "numberOfPizzasPerPrice", pizzaService.findNumberOfPizzasPerPrice());
     }
 }

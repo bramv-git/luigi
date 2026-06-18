@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head(title='Number of pizzas per price')}"></head>
+<body>
+<nav th:replace="~{fragments::navigation}"></nav>
+<h1>Number of pizzas per price</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Price</th>
+            <th>Number of Pizzas</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="numberAndPrice : ${numberOfPizzasPerPrice}" th:object="${numberAndPrice}">
+            <td th:text="*{price}"></td>
+            <td th:text="*{number}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
