@@ -1,5 +1,6 @@
 package be.vdab.luigi.controllers;
 
+import be.vdab.luigi.domain.Pizza;
 import be.vdab.luigi.exceptions.KoersClientException;
 import be.vdab.luigi.forms.FromToPriceForm;
 import be.vdab.luigi.services.EuroService;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 
@@ -78,9 +81,24 @@ public class PizzaController {
                 pizzaService.findByPriceBetween(form.from(), form.to()));
     }
 
-    @GetMapping("fromtoprice/form")
+    @GetMapping("/fromtoprice/form")
     public ModelAndView fromToPriceForm(){
         return new ModelAndView("fromtoprice")
                 .addObject(new FromToPriceForm(BigDecimal.ZERO, BigDecimal.ZERO));
+    }
+
+    @GetMapping("/add/form")
+    public ModelAndView addForm(){
+        return new ModelAndView("add")
+                .addObject(new Pizza(0, "", null, false));
+    }
+
+    @PostMapping
+    public String add(@Valid Pizza pizza, Errors errors, RedirectAttributes redirect){
+        if(errors.hasErrors()){
+            return "add";
+        }
+        redirect.addAttribute("idNewPizza", pizzaService.create(pizza));
+        return "redirect:/pizzas";
     }
 }

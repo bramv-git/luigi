@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head(title='Add pizza')}"></head>
+<body>
+<script th:src="@{/js/preventDoubleSubmit.js}" defer></script>
+<nav th:replace="~{fragments::navigation}"></nav>
+<h1>Add</h1>
+<form th:object="${pizza}"
+      th:action="@{/pizzas}"
+      method="post">
+
+    <input type="hidden" name="id" th:field="*{id}">
+
+    <label>Name:</label><span th:errors="*{name}"></span>
+    <input type="text" name="name" th:field="*{name}" autofocus required>
+
+    <label>Price:</label><span th:errors="*{price}"></span>
+    <input type="number" name="price" th:field="*{price}" required min="0">
+
+    <label>Spicy:</label>
+    <input type="checkbox" name="spicy" th:field="*{spicy}">
+
+    <button>Add</button>
+</form>
+</body>
+</html>

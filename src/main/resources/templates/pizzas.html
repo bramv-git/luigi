@@ -3,6 +3,8 @@
 <head th:replace="~{fragments::head(title='Pizzas')}"></head>
 <body>
 <nav th:replace="~{fragments::navigation}"></nav>
+<div th:if="${param.idNewPizza}" class="boodschap">
+    Pizza added. The number of the new pizza is <th:block th:text="${param.idNewPizza}"></th:block>.</div>
 <h1>Pizzas</h1>
 <table th:replace="~{fragments::pizzaTable(pizzas=${pizzas})}"></table>
 </body>
