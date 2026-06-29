@@ -10,10 +10,10 @@
       method="get">
     <label>From:</label>
     <span th:errors="*{from}"></span>
-    <input th:field="*{from}" autofocus/>
+    <input th:field="*{from}" autofocus type="number" required min="0"/>
     <label>To:</label>
     <span th:errors="*{to}"></span>
-    <input th:field="*{to}" />
+    <input th:field="*{to}" type="number" required min="0"/>
     <button>Search</button>
 </form>
 <th:block th:if="${pizzas}">
