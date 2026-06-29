@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head(title='From to price')}">
+</head>
+<body>
+<nav th:replace="~{fragments::navigation}"></nav>
+<h1> From to price</h1>
+<form th:object="${fromToPriceForm}"
+      th:action="@{/pizzas/fromtoprice}"
+      method="get">
+    <label>From:</label>
+    <span th:errors="*{from}"></span>
+    <input th:field="*{from}" autofocus/>
+    <label>To:</label>
+    <span th:errors="*{to}"></span>
+    <input th:field="*{to}" />
+    <button>Search</button>
+</form>
+<th:block th:if="${pizzas}">
+    <table th:replace="~{fragments::pizzaTable(pizzas=${pizzas})}"></table>
+</th:block>
+</body>
+</html>

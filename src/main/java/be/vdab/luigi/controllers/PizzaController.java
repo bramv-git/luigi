@@ -1,13 +1,16 @@
 package be.vdab.luigi.controllers;
 
 import be.vdab.luigi.exceptions.KoersClientException;
+import be.vdab.luigi.forms.FromToPriceForm;
 import be.vdab.luigi.services.EuroService;
 
 import be.vdab.luigi.services.PizzaService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,5 +66,21 @@ public class PizzaController {
     public ModelAndView numberOfPizzasPerPrice(){
         return new ModelAndView("numberofpizzasperprice",
                 "numberOfPizzasPerPrice", pizzaService.findNumberOfPizzasPerPrice());
+    }
+
+    @GetMapping("fromtoprice")
+    public ModelAndView fromToPrice(@Valid FromToPriceForm form, Errors errors){
+        var modelAndView = new ModelAndView("fromtoprice");
+        if(errors.hasErrors()){
+            return modelAndView;
+        }
+        return modelAndView.addObject("pizzas",
+                pizzaService.findByPriceBetween(form.from(), form.to()));
+    }
+
+    @GetMapping("fromtoprice/form")
+    public ModelAndView fromToPriceForm(){
+        return new ModelAndView("fromtoprice")
+                .addObject(new FromToPriceForm(BigDecimal.ZERO, BigDecimal.ZERO));
     }
 }

@@ -93,7 +93,7 @@ public class JdbcPizzaRepository implements PizzaRepository{
     public List<Pizza> findByPriceBetween(BigDecimal min, BigDecimal max) {
         return template.query("""
                 SELECT id, name, price, spicy
-                FROM Pizzas
+                FROM pizzas
                 WHERE price BETWEEN ? AND ?
                 ORDER BY price
                 """, pizzaMapper, min, max);
